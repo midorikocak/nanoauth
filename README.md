@@ -1,5 +1,5 @@
-![nano API](nano.png)
-# Nano
+![Nano Auth](nano.png)
+# Nano Auth
 
 [![Latest Version on Packagist][ico-version]][link-packagist]
 [![Software License][ico-license]](LICENSE.md)
@@ -9,9 +9,7 @@
 [![Total Downloads][ico-downloads]][link-downloads]
 
 
-Nano is a very very tiny php library that allows you to create very fast rest APIs. 
-
-Think it's like Slim but if Slim is slim, Nano is anorexic.
+Nano Auth is a small library that allows you to create authentication for your apps.
 
 ## Requirements
 
@@ -22,114 +20,139 @@ Strictly requires PHP 7.4.
 Via Composer
 
 ``` bash
-$ composer require midorikocak/nano
+$ composer require midorikocak/nanoauth
 ```
 
 ## Usage
 
-Simply instantiate and include in your app.
+### Authentication
 
-``` php
-use midorikocak\nano\Api;
+The Authentication class has 4 public methods that you can use:
 
-require __DIR__ . '/vendor/autoload.php';
-
-$api = new Api();
-
-```
-
-I know. It's not static.
-
-### Defining REST resources 
-
-Defining rest routes and using wildcards are easy.
-
-``` php
-$message = 'Welcome to Nano';
-
-$api->get('/', function () use ($message) {
-    echo json_encode(['message' => $message]);
-    http_response_code(200);
-});
-
-$api->post('/', function () use ($message) {
-    $input = (array)json_decode(file_get_contents('php://input'), true, 512, JSON_THROW_ON_ERROR);
-    echo json_encode($input);
-    http_response_code(201);
-});
-
-$api->get('/echo/{$message}', function ($message) {
-    echo json_encode(['message' => $message]);
-    http_response_code(200);
-});
-
-```
-
-### Basic Auth
-
-It's possible hide your routed behind an authentication layer. Currently it expects basic auth, more methods to come soon.
-
-``` php
-
-$authFunction = function ($username, $password) {
-    return ($username == 'username' && $password == 'password');
-};
-
-$api->auth(function () use (&$api) {
-
-    $api->get('/entries/{id}', function ($id) {
-        echo json_encode(['id' => $id]);
-        http_response_code(201);
-    });
-
-    $api->post('/entries/{id}', function ($id) {
-        echo json_encode(['id' => $id]);
-        http_response_code(201);
-    });
-
-    $api->put('/entries/{id}', function ($id) {
-        echo json_encode(['id' => $id]);
-        http_response_code(204);
-    });
-
-    $api->delete('/entries/{id}', function ($id) {
-        http_response_code(204);
-    });
-
-}, $authFunction);
-```
-
-Hence the basic auth is not encrypted, using https is strictly advised.
-
-## Testing
-
-You can test your live API using `Guzzle/Client`
-
-``` php
+```php
 <?php
 
 declare(strict_types=1);
 
-namespace midorikocak\nano;
+namespace midorikocak\nanoauth;
 
-use GuzzleHttp\Client;
-use PHPUnit\Framework\TestCase;
-
-class IntegrationTest extends TestCase
+interface AuthenticationInterface
 {
-    public function testGet(): void
-    {
-        $client = new Client(
-            [
-                'base_uri' => $this->baseUri,
-                'http_errors' => false,
-            ],
-        );
+    public function login(string $username, string $password): bool;
 
-        $response = $client->request('GET', '/echo/hello');
-        $this->assertEquals(200, $response->getStatusCode());
-        $this->assertStringContainsString('hello', (string)$response->getBody());
+    public function logout(): void;
+
+    public function isLogged(): bool;
+
+    public function getLoggedUser();
+}
+```
+
+To use it you should supply with a user repository.
+
+```php
+$db = new Database(new PDO('sqlite::memory:'));
+$userRepository = new UserRepository($db);
+$auth = new Authentication($userRepository);
+```
+
+### User implements UserInterface
+
+A user object that we can authenticate should implemennt `UserInterface`.
+
+```php
+<?php
+
+declare(strict_types=1);
+
+namespace midorikocak\nanoauth;
+
+interface UserInterface
+{
+    public function __construct(?string $id, string $username, string $email, string $password);
+
+    public function getPassword(): string;
+
+    public function getUsername(): string;
+
+    public function getEmail(): string;
+
+    public function getId(): ?string;
+
+    public function setId(string $id): void;
+}
+```
+
+### UserRepository
+
+To interact with user data, we need to supply user repository to our authentication object. If you want to use your own 
+implementation of user repository, you can implement your own `UserInnterface`. 
+Here repository constructor expects a `NanoDB` object.
+
+```php
+$userRepository = new UserRepository($db);
+$auth = new Authentication($userRepository);
+```
+
+### Authorization
+
+To add authentication and authorization capabilities,
+you can use `AuthorizationTrait` in your App classes. 
+
+Let's say we created our app in this way:
+
+```php
+<?php
+
+declare(strict_types=1);
+
+use midorikocak\nanodb\Database;
+use midorikocak\nanoauth\UserRepository;
+use midorikocak\nanoauth\Authentication;
+
+$db = new Database(new PDO('sqlite::memory:'));
+
+$userRepository = new UserRepository($db);
+
+$auth = new Authentication($userRepository);
+$entryRepository = new Journal($db);
+$app = new App($entryRepository);
+
+$this->app->setAuthentication($this->auth);
+
+```
+
+To check login we should trigger `checkLogin()` method in our public methods.
+
+```php
+<?php 
+
+declare(strict_types=1);
+
+use midorikocak\nanodb\Database;
+use midorikocak\nanoauth\UserRepository;
+use midorikocak\nanoauth\Authentication;
+use midorikocak\nanoauth\AuthorizationTrait;
+
+ class App
+{
+    use AuthorizationTrait;
+
+    private Journal $journal;
+
+    public function __construct(Journal $journal)
+    {
+        $this->journal = $journal;
     }
+
+    public function addEntry(string $content)
+    {
+        $this->checkLogin();
+
+        $entry = new Entry($content);
+        $this->journal->save($entry);
+    }
+}
 ```
 
 ## Motivation
@@ -163,17 +186,17 @@ If you discover any security related issues, please email mtkocak@gmail.com inst
 
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
 
-[ico-version]: https://img.shields.io/packagist/v/midorikocak/nano.svg?style=flat-square
+[ico-version]: https://img.shields.io/packagist/v/midorikocak/nanoauth.svg?style=flat-square
 [ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
-[ico-travis]: https://img.shields.io/travis/midorikocak/nano/master.svg?style=flat-square
-[ico-scrutinizer]: https://img.shields.io/scrutinizer/coverage/g/midorikocak/nano.svg?style=flat-square
-[ico-code-quality]: https://img.shields.io/scrutinizer/g/midorikocak/nano.svg?style=flat-square
-[ico-downloads]: https://img.shields.io/packagist/dt/midorikocak/nano.svg?style=flat-square
+[ico-travis]: https://img.shields.io/travis/midorikocak/nanoauth/master.svg?style=flat-square
+[ico-scrutinizer]: https://img.shields.io/scrutinizer/coverage/g/midorikocak/nanoauth.svg?style=flat-square
+[ico-code-quality]: https://img.shields.io/scrutinizer/g/midorikocak/nanoauth.svg?style=flat-square
+[ico-downloads]: https://img.shields.io/packagist/dt/midorikocak/nanoauth.svg?style=flat-square
 
-[link-packagist]: https://packagist.org/packages/midorikocak/nano
-[link-travis]: https://travis-ci.org/midorikocak/nano
-[link-scrutinizer]: https://scrutinizer-ci.com/g/midorikocak/nano/code-structure
-[link-code-quality]: https://scrutinizer-ci.com/g/midorikocak/nano
-[link-downloads]: https://packagist.org/packages/midorikocak/nano
+[link-packagist]: https://packagist.org/packages/midorikocak/nanoauth
+[link-travis]: https://travis-ci.org/midorikocak/nanoauth
+[link-scrutinizer]: https://scrutinizer-ci.com/g/midorikocak/nanoauth/code-structure
+[link-code-quality]: https://scrutinizer-ci.com/g/midorikocak/nanoauth
+[link-downloads]: https://packagist.org/packages/midorikocak/nanoauth
 [link-author]: https://github.com/midorikocak
 [link-contributors]: ../../contributors

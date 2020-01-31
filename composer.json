@@ -1,12 +1,12 @@
 {
-    "name": "midorikocak/nano",
+    "name": "midorikocak/nanoauth",
     "type": "library",
-    "description": "Nano is a very very tiny php app that allows you to create very fast rest interfaces.",
+    "description": "Nano Aut is a small library that allows you to create authentication for your apps.\n",
     "keywords": [
         "midorikocak",
         "nano",
-        "api",
-        "rest"
+        "nanoauth",
+        "auth"
     ],
     "homepage": "https://github.com/midorikocak/nano",
     "license": "MIT",
@@ -19,24 +19,25 @@
         }
     ],
     "require": {
-        "php" : "~7.4",
-        "ext-json": "*"
+        "php": "~7.4",
+        "ext-json": "*",
+        "midorikocak/arraytools": "^1.0",
+        "midorikocak/nanodb": "^1.1.1"
     },
     "require-dev": {
-        "guzzlehttp/guzzle": "^6.5",
         "opsway/psr12-strict-coding-standard": "^0.3.0",
         "phpunit/phpunit": ">=8.0",
         "squizlabs/php_codesniffer": "^3.5",
-        "symfony/process": "^5.0"
+        "ext-pdo": "*"
     },
     "autoload": {
         "psr-4": {
-            "midorikocak\\nano\\": "src"
+            "midorikocak\\nanoauth\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "midorikocak\\nano\\": "tests"
+            "midorikocak\\nanoauth\\": "tests"
         }
     },
     "scripts": {
