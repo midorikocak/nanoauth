@@ -9,7 +9,7 @@
 [![Total Downloads][ico-downloads]][link-downloads]
 
 
-Nano Auth is a small library that allows you to create authentication for your apps.
+Nano Auth is a library that allows you to create authentication for your apps.
 
 ## Requirements
 
