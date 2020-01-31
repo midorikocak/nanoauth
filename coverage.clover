@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1580508743">
-  <project timestamp="1580508743">
+<coverage generated="1580513931">
+  <project timestamp="1580513931">
     <package name="midorikocak\nanoauth">
       <file name="/Users/midorikocak/Documents/src/nano-auth/src/Authentication.php">
         <class name="midorikocak\nanoauth\Authentication" namespace="midorikocak\nanoauth">
@@ -62,26 +62,26 @@
         <class name="midorikocak\nanoauth\User" namespace="midorikocak\nanoauth">
           <metrics complexity="9" methods="6" coveredmethods="5" conditionals="0" coveredconditionals="0" statements="13" coveredstatements="12" elements="19" coveredelements="17"/>
         </class>
-        <line num="21" type="method" name="__construct" visibility="public" complexity="2" crap="2" count="4"/>
+        <line num="19" type="method" name="__construct" visibility="public" complexity="2" crap="2" count="4"/>
+        <line num="21" type="stmt" count="4"/>
+        <line num="22" type="stmt" count="4"/>
         <line num="23" type="stmt" count="4"/>
         <line num="24" type="stmt" count="4"/>
         <line num="25" type="stmt" count="4"/>
-        <line num="26" type="stmt" count="4"/>
-        <line num="27" type="stmt" count="4"/>
-        <line num="29" type="method" name="getPassword" visibility="public" complexity="1" crap="1" count="4"/>
-        <line num="31" type="stmt" count="4"/>
-        <line num="34" type="method" name="getUsername" visibility="public" complexity="1" crap="1" count="1"/>
-        <line num="36" type="stmt" count="1"/>
-        <line num="39" type="method" name="getEmail" visibility="public" complexity="1" crap="1" count="1"/>
-        <line num="41" type="stmt" count="1"/>
-        <line num="44" type="method" name="getId" visibility="public" complexity="2" crap="2" count="1"/>
-        <line num="46" type="stmt" count="1"/>
-        <line num="52" type="method" name="setId" visibility="public" complexity="2" crap="2.06" count="1"/>
-        <line num="54" type="stmt" count="1"/>
-        <line num="55" type="stmt" count="0"/>
-        <line num="58" type="stmt" count="1"/>
-        <line num="59" type="stmt" count="1"/>
-        <metrics loc="60" ncloc="57" classes="1" methods="6" coveredmethods="5" conditionals="0" coveredconditionals="0" statements="13" coveredstatements="12" elements="19" coveredelements="17"/>
+        <line num="27" type="method" name="getPassword" visibility="public" complexity="1" crap="1" count="4"/>
+        <line num="29" type="stmt" count="4"/>
+        <line num="32" type="method" name="getUsername" visibility="public" complexity="1" crap="1" count="1"/>
+        <line num="34" type="stmt" count="1"/>
+        <line num="37" type="method" name="getEmail" visibility="public" complexity="1" crap="1" count="1"/>
+        <line num="39" type="stmt" count="1"/>
+        <line num="42" type="method" name="getId" visibility="public" complexity="2" crap="2" count="1"/>
+        <line num="44" type="stmt" count="1"/>
+        <line num="50" type="method" name="setId" visibility="public" complexity="2" crap="2.06" count="1"/>
+        <line num="52" type="stmt" count="1"/>
+        <line num="53" type="stmt" count="0"/>
+        <line num="56" type="stmt" count="1"/>
+        <line num="57" type="stmt" count="1"/>
+        <metrics loc="58" ncloc="55" classes="1" methods="6" coveredmethods="5" conditionals="0" coveredconditionals="0" statements="13" coveredstatements="12" elements="19" coveredelements="17"/>
       </file>
       <file name="/Users/midorikocak/Documents/src/nano-auth/src/UserRepository.php">
         <class name="midorikocak\nanoauth\UserRepository" namespace="midorikocak\nanoauth">
@@ -134,6 +134,6 @@
     <file name="/Users/midorikocak/Documents/src/nano-auth/src/UserInterface.php">
       <metrics loc="20" ncloc="20" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" elements="0" coveredelements="0"/>
     </file>
-    <metrics files="8" loc="318" ncloc="295" classes="5" methods="21" coveredmethods="13" conditionals="0" coveredconditionals="0" statements="71" coveredstatements="53" elements="92" coveredelements="66"/>
+    <metrics files="8" loc="316" ncloc="293" classes="5" methods="21" coveredmethods="13" conditionals="0" coveredconditionals="0" statements="71" coveredstatements="53" elements="92" coveredelements="66"/>
   </project>
 </coverage>

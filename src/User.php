@@ -11,10 +11,10 @@ class User implements UserInterface
 {
     use ArrayConvertableTrait;
 
-    public ?string $id;
-    public string $username;
-    public string $email;
-    public string $password;
+    private ?string $id;
+    private string $username;
+    private string $email;
+    private string $password;
 
     public function __construct(?string $id, string $username, string $email, string $password)
     {
