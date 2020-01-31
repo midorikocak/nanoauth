@@ -23,14 +23,14 @@ class Authentication implements AuthenticationInterface, RegisterableInterface
 
     public function login(string $username, string $password): bool
     {
-        $hash = password_hash($password, PASSWORD_DEFAULT);
         $foundUsers = $this->userRepository->readAll(['username' => $username]);
 
         /**
          * @var UserInterface $user
          */
         $user = reset($foundUsers);
-        if ($user && password_verify($user->getPassword(), $hash)) {
+
+        if ($user !== null && password_verify($password, $user->getPassword())) {
             $this->loggedUser = $user;
             return true;
         }
@@ -61,8 +61,7 @@ class Authentication implements AuthenticationInterface, RegisterableInterface
     public function register(string $username, string $email, string $password): bool
     {
         try {
-            $hash = password_hash($password, PASSWORD_DEFAULT);
-            $user = new User(null, $username, $email, $password);
+            $user = new User(null, $username, $email, password_hash($password, PASSWORD_DEFAULT));
 
             $this->userRepository->save($user);
             return true;

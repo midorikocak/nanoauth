@@ -8,6 +8,8 @@ use midorikocak\nanodb\Database;
 use PDO;
 use PHPUnit\Framework\TestCase;
 
+use function password_hash;
+
 final class AuthorizationTest extends TestCase
 {
     private Authentication $auth;
@@ -37,7 +39,12 @@ final class AuthorizationTest extends TestCase
             'content' => 'Bugün güzel şeyler oldu. Daha da güzel şeyler olacak.',
         ];
 
-        $this->insertUser($this->userData['email'], $this->userData['username'], $this->userData['password']);
+        $this->insertUser(
+            $this->userData['email'],
+            $this->userData['username'],
+            password_hash($this->userData['password'], PASSWORD_DEFAULT)
+        );
+
         $this->insertEntry($this->entryData['content']);
 
         $this->userRepository = new UserRepository($this->db);

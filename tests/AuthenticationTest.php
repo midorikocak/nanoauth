@@ -8,6 +8,8 @@ use midorikocak\nanodb\Database;
 use PDO;
 use PHPUnit\Framework\TestCase;
 
+use function password_hash;
+
 final class AuthenticationTest extends TestCase
 {
     private Authentication $auth;
@@ -31,7 +33,11 @@ final class AuthenticationTest extends TestCase
             'password' => '87654321',
         ];
 
-        $this->insertUser($this->userData['email'], $this->userData['username'], $this->userData['password']);
+        $this->insertUser(
+            $this->userData['email'],
+            $this->userData['username'],
+            password_hash($this->userData['password'], PASSWORD_DEFAULT)
+        );
 
         $this->userRepository = new UserRepository($this->db);
 
@@ -52,7 +58,7 @@ final class AuthenticationTest extends TestCase
      id INTEGER PRIMARY KEY,
      username TEXT NOT NULL UNIQUE,
      email TEXT NOT NULL UNIQUE,
-     password TEXT NOT NULL);";
+     password VARCHAR(255) NOT NULL);";
             $this->pdo->exec($sql);
         } catch (PDOException $e) {
             echo $e->getMessage(); //Remove or change message in production code
