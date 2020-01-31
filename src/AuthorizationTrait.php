@@ -14,7 +14,7 @@ trait AuthorizationTrait
             throw new UnauthorizedException();
         }
 
-        return true;
+        return $this->authentication->isLogged();
     }
 
     public function getAuthentication(): ?AuthenticationInterface
