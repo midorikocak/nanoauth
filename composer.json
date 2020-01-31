@@ -1,7 +1,7 @@
 {
     "name": "midorikocak/nanoauth",
     "type": "library",
-    "description": "Nano Aut is a library that allows you to create authentication for your apps.",
+    "description": "Nano Auth is a library that allows you to create authentication for your apps.",
     "keywords": [
         "midorikocak",
         "nano",
