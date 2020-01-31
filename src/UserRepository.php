@@ -52,7 +52,9 @@ class UserRepository implements RepositoryInterface
         }
 
         $db->execute();
-        return array_map(fn($data) => User::fromArray($data), $db->fetchAll());
+        return array_map(function ($data) {
+            return User::fromArray($data);
+        }, $db->fetchAll());
     }
 
     /**
