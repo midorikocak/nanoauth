@@ -92,7 +92,7 @@ final class AuthenticationTest extends TestCase
 
     public function testRegister(): void
     {
-        $this->auth->register('email@email2.com', 'username2', 'password2');
+        $this->auth->register('username2', 'email@email2.com', 'password2');
         $this->auth->login('username2', 'password2');
         $this->assertTrue($this->auth->isLogged());
         $this->assertNotEmpty($this->auth->getLoggedUser());

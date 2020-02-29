@@ -97,3 +97,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Security
 - Nothing
+
+## [1.1.1] - 2020-02-28
+
+### Added
+- Nothing
+
+### Deprecated
+- Nothing
+
+### Fixed
+- Username bug in User POPO
+
+### Removed
+- Nothing
+
+### Security
+- Nothing

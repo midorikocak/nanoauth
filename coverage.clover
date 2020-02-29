@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1582952970">
-  <project timestamp="1582952970">
+<coverage generated="1582968334">
+  <project timestamp="1582968334">
     <package name="midorikocak\nanoauth">
       <file name="/Users/midorikocak/Documents/src/nano-auth/src/Authentication.php">
         <class name="midorikocak\nanoauth\Authentication" namespace="midorikocak\nanoauth">
