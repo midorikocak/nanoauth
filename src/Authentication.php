@@ -6,6 +6,7 @@ namespace midorikocak\nanoauth;
 
 use Exception;
 use midorikocak\nanodb\RepositoryInterface;
+use midorikocak\querymaker\QueryMaker;
 
 use function password_hash;
 use function password_verify;
@@ -23,7 +24,9 @@ class Authentication implements AuthenticationInterface, RegisterableInterface
 
     public function login(string $username, string $password): bool
     {
-        $foundUsers = $this->userRepository->readAll(['username' => $username]);
+        $queryMaker = new QueryMaker();
+        $query = $queryMaker->select('users')->where('username', $username);
+        $foundUsers = $this->userRepository->readAll($query);
 
         /**
          * @var UserInterface $user

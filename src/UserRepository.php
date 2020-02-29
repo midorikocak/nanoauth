@@ -7,11 +7,10 @@ namespace midorikocak\nanoauth;
 use Exception;
 use midorikocak\nanodb\DatabaseInterface;
 use midorikocak\nanodb\RepositoryInterface;
+use midorikocak\querymaker\QueryInterface;
 use ReflectionException;
 
 use function array_map;
-use function key;
-use function reset;
 
 class UserRepository implements RepositoryInterface
 {
@@ -35,26 +34,15 @@ class UserRepository implements RepositoryInterface
         return User::fromArray($data);
     }
 
-    public function readAll(array $constraints = [], array $columns = ['*']): array
+    public function readAll(?QueryInterface $query = null): array
     {
-        $db = $this->db->select('users', $columns);
-
-        if (!empty($constraints)) {
-            $value = reset($constraints);
-            $key = key($constraints);
-            $db->where($key, $value);
-
-            unset($constraints[key($constraints)]);
-
-            foreach ($constraints as $key => $value) {
-                $db->and($key, $value);
-            }
+        if ($query !== null) {
+            $db = $this->db->query($query);
+        } else {
+            $db = $this->db->select('users');
         }
-
         $db->execute();
-        return array_map(function ($data) {
-            return User::fromArray($data);
-        }, $db->fetchAll());
+        return array_map(fn($data) => User::fromArray($data), $db->fetchAll());
     }
 
     /**

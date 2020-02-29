@@ -80,3 +80,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Security
 - Fixed AuthorizationTrait checkLogin method.
+
+## [1.1.0] - 2020-02-28
+
+### Added
+- Nothing
+
+### Deprecated
+- Nothing
+
+### Fixed
+- Updated Nano-db dependency
+
+### Removed
+- Nothing
+
+### Security
+- Nothing

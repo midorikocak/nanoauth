@@ -24,7 +24,7 @@
         "php": "~7.4",
         "ext-json": "*",
         "midorikocak/arraytools": "^1.0",
-        "midorikocak/nanodb": "^1.1.1"
+        "midorikocak/nanodb": "^1.2.3"
     },
     "require-dev": {
         "opsway/psr12-strict-coding-standard": "^0.3.0",
