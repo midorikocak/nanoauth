@@ -27,10 +27,11 @@
         "midorikocak/nanodb": "^1.2.3"
     },
     "require-dev": {
+        "ext-pdo": "*",
         "opsway/psr12-strict-coding-standard": "^0.3.0",
+        "phpunit/php-token-stream": "^4.0",
         "phpunit/phpunit": ">=8.0",
-        "squizlabs/php_codesniffer": "^3.5",
-        "ext-pdo": "*"
+        "squizlabs/php_codesniffer": "^3.5"
     },
     "autoload": {
         "psr-4": {
