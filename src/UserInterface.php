@@ -6,8 +6,6 @@ namespace midorikocak\nanoauth;
 
 interface UserInterface
 {
-    public function __construct(?string $id, string $username, string $email, string $password);
-
     public function getPassword(): string;
 
     public function getUsername(): string;
